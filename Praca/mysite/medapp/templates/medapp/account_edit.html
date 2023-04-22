@@ -1,0 +1,19 @@
+{% extends "medapp/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}Edytuj swój profil{% endblock title %}
+
+{% block content %}
+
+  <form class="form-signin" style="max-width: 800px; height: 800px;" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="border-bottom">
+      <h2 class="pt-3">Edytuj swój profil</h2>
+    </div>
+    {{ user_form|crispy }}
+    {{ profile_form|crispy}}
+    <button  class="btn btn-lg btn-primary btn-block" type="submit">Zapisz zmiany</button>
+  </form>
+  
+{% endblock %}

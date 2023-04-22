@@ -1,0 +1,96 @@
+{% extends "medapp/base.html" %}
+
+
+{% block content %}
+<div class="container-fluid pt-5">
+    <div class="card  mb-3 rounded ">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                  <h4 class="mb-0">Zamówienia</h6>
+                </div>
+            </div> 
+            <hr>
+            <div class="row text-center d-flex align-items-center">
+                <div class="col-sm-1">
+                    <h6 class="mb-0">Id</h6>
+                </div>
+                <div class="col-sm-1">
+                    <h6 class="mb-0">Użytkownik</h6>
+                </div>
+                <div class="col-sm-1">
+                    <h6 class="mb-0">Produkt</h6>
+                </div>
+                <div class="col-sm-1">
+                    <h6 class="mb-0">Ilość produktów</h6>
+                </div>
+                <div class="col-sm-1">
+                    <h6 class="mb-0">Ilość dni najmu</h6>
+                </div>
+                <div class="col-sm-1">
+                    <h6 class="mb-0">Imię</h6>
+                </div>
+                <div class="col-sm-1">
+                    <h6 class="mb-0">Nazwisko</h6>
+                </div>
+                <div class="col-sm-1">
+                    <h6 class="mb-0">Nr. telefonu</h6>
+                </div>
+                <div class="col-sm-1">
+                    <h6 class="mb-0">Adres</h6>
+                </div>
+                <div class="col-sm-1">
+                    <h6 class="mb-0">Kod pocztowy</h6>
+                </div>
+                <div class="col-sm-1">
+                    <h6 class="mb-0">Miasto</h6>
+                </div>
+            </div>
+            <hr>
+            {% for order in orders %}
+            <div class="row text-center d-flex align-items-center">
+                <div class="col-sm-1">
+                    <p class="mb-0">{{ order.id }}</p>
+                </div>
+                <div class="col-sm-1">
+                    <p class="mb-0"><a class="text-muted" href="{{ order.user.profile.get_absolute_url }}">
+                        {{ order.user }}
+                      </a></p>
+                </div>
+                <div class="col-sm-1">
+                    <p class="mb-0"> <a class="text-muted" href="{{ order.product.get_absolute_url }}">
+                        {{ order.product }}
+                    </a></p>
+                </div>
+                <div class="col-sm-1">
+                    <p class="mb-0">{{ order.quantity }}</p>
+                </div>
+                <div class="col-sm-1">
+                    <p class="mb-0">{{ order.days }}</p>
+                </div>
+                <div class="col-sm-1">
+                    <p class="mb-0">{{ order.name1 }}</p>
+                </div>
+                <div class="col-sm-1">
+                    <p class="mb-0">{{ order.name2 }}</p>
+                </div>
+                <div class="col-sm-1">
+                    <p class="mb-0">{{ order.phone_number }}</p>
+                </div>
+                <div class="col-sm-1">
+                    <p class="mb-0">{{ order.home_number }}/{{ order.apartment }}</p>
+                </div>
+                <div class="col-sm-1">
+                    <p class="mb-0">{{ order.postcode }}</p>
+                </div>
+                <div class="col-sm-1">
+                    <p class="mb-0">{{ order.city_name }}</p>
+                </div>
+            </div>
+            <hr>
+            {% endfor %}
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

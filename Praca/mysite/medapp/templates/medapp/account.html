@@ -1,0 +1,86 @@
+{% extends "medapp/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <h1>Witaj {{ user.username }}!</h1>
+    <div class="row ">
+        <div class="col-md-4">
+            <div class="card mb-3 text-center rounded" style="height: 353.8px;">
+                <div class="card-body">
+                    <img style="width: 12rem;" src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'img/profile.png' %}{% endif %}">
+                    <h5 class="card-title h3">{{ user.username }}</h5>
+                    <p class="card-text">Email: {{ user.email }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card mb-3 rounded">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                          <h4 class="mb-0">Ustawienia konta</h6>
+                        </div>
+                    </div> 
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Edytuj profil:</h6>
+                        </div>
+                        <div class="col-sm-9 text-center">
+                            <a class="text-muted" href="{% url 'medapp:edit' %}">Zmień dane</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Stwórz ofertę:</h6>
+                        </div>
+                        <div class="col-sm-9 text-center">
+                            <a class="text-muted" href="{% url 'medapp:product-create' %}">Utwórz</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Moje produkty:</h6>
+                        </div>
+                        <div class="col-sm-9 text-center">
+                            <a class="text-muted" href="{% url 'my_products' %}">Wyświetl</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Zamówienia:</h6>
+                        </div>
+                        <div class="col-sm-9 text-center">
+                            <a class="text-muted" href="{% url 'orders' %}">Wyświetl</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Zmień hasło:</h6>
+                        </div>
+                        <div class="col-sm-9 text-center">
+                            <a class="text-muted" href="{% url 'password_change' %}">Zmień</a>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if user.profile.description %}
+    <div class="row">
+        <div class="card rounded">
+            <div class="card-body">
+                <p class="card-text">{{ user.profile.description|linebreaks }}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+
+{% endblock content %}

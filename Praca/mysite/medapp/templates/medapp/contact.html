@@ -1,0 +1,18 @@
+{% extends "medapp/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}Formularz kontaktowy{% endblock %}
+
+{% block content %}
+  <form class="form-signin border-box" style="max-width: 800px; height: 650px;" method="post">
+    {% csrf_token %}
+    <div class="border-bottom">
+      <h2 class="pt-3">Skontaktuj się z nami!</h2>
+    </div>
+    {{ contact_form|crispy}}
+    {% csrf_token %}
+    <button  class="btn btn-lg btn-primary btn-block" type="submit">Wyślij wiadomość</button>
+  </form>
+
+{% endblock %}

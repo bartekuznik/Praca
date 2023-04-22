@@ -1,0 +1,108 @@
+{% extends "medapp/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  {{ object.name }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row pt-3">
+    <div class="col">
+      <img id="detail-img" style="width: 40rem;" src="{% if product.image %}{{ product.image.url }}{% else %}
+      {% static 'img/no_image.png' %}{% endif %}">
+    </div>
+
+    <div class="col">
+      <div class="pb-5 pt-3">
+        <h1 class="mb-0 pb-3">{{ product.name }}</h1>
+        <h5>
+          {% if product.author == user %}
+              Wynajmujący:
+            <a class="text-muted" href="{% url 'account' %}">
+              {{ product.author }}
+            </a>
+          {% else %}
+            Wynajmujący:
+            <a class="text-muted" href="{{ product.author.profile.get_absolute_url }}">
+              {{ product.author }}
+            </a>
+          {% endif %}
+        </h5>
+        <h5>
+            Kategoria produktu:
+          <a class="text-muted" href="{{ product.category.get_absolute_url }}">
+            {{ product.category }}
+          </a>
+        </h5>
+        <h5 class="pb-5">
+          Dostępna ilość: {{ product.quantity }}
+      </h5>
+      </div>
+      <div class="border">
+          <div class="col border-bottom">
+              <div class="row p-3">
+                  <div class="col-6"><h5>Kwota za dzień:</h5> </div>
+                  <div class="col-6 text-end"><span class="h4 fw-bold">{{ product.price }} zł</span></div>
+              </div>
+          </div>
+          <div class="col border-bottom">
+              <div class="row p-3">
+                   <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#exampleModalCenter">
+                    Złóż zamówienie
+                  </button>
+              </div>
+          </div>
+          {% if product.author == user %}
+          <div class="col">
+            <div class="row p-3">   
+                <div class="col " style="padding: 0 5px 0 0 ;">
+                  <a class="btn btn-secondary btn-block" href="{% url 'medapp:product-update' product.id %}">Aktualizuj</a>
+                </div>
+                <div class="col" style="padding: 0 0 0 5px;">
+                  <a class="btn btn-danger btn-block" href="{% url 'medapp:product-delete' product.id %}">Usuń</a>
+                </div>
+            </div>
+          </div>
+          {% endif %}
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class=" my-md-5 border-top">
+  </div>
+</div>
+<div class="container">
+    <h4>{{ product.name }}</h4>
+    {{ product.description|linebreaks }}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Formularz zamówienia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          {% csrf_token %}
+          {{ order_form|crispy }}
+          <button class="btn btn-outline-info" type="submit">Złóż zamówienie!</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

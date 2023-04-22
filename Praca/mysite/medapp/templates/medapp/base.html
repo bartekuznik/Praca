@@ -1,0 +1,132 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>MedApp</title>
+    {% endif %}
+
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+
+  </head>
+  <body class="bg-light" >
+
+    <!-- Navbar -->
+
+    <nav class="navbar navbar-expand-md bg-white navbar-light py-3">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Medapp</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item pr-2">
+              <a class="nav-link home-item" href="{% url 'home' %}">HOME</a>
+            </li>
+            <li class="nav-item pr-2">
+              <a class="nav-link" href="#">O NAS</a>
+            </li>
+            <li class="nav-item pr-2">
+              <a class="nav-link" href="{% url 'medapp:contact' %}">KONTAKT</a>
+            </li>
+
+            <!-- Dropdown -->
+            
+            <li class="nav-item pr-2 dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">PRODUKTY</a>
+              <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                <li>
+                  <a class="dropdown-item" href="{% url "medapp:product_list" %}">Wszystkie</a>
+                </li>
+                {% for c in categories %}
+                  <li {% if category.slug == c.slug %}class="selected"{% endif %}>
+                    <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name|title }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item pr-2">
+              <a class="nav-link" href="{% url 'account' %}">PROFIL</a>
+            </li>
+            <li class="nav-item pr-2">
+              <a class="nav-link" href="{% url 'logout' %}">WYLOGUJ</a>
+            </li>
+            {% else %}
+            <li class="nav-item pr-2">
+              <a class="nav-link" href="{% url 'register' %}">REJESTRACJA</a>
+            </li>
+            <li class="nav-item pr-2">
+              <a class="nav-link" href="{% url 'login' %}">ZALOGUJ</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+    <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+    {% block content %}
+    {% endblock %}
+
+
+    <!-- Toolbar -->
+
+    <div class="container-fluid">
+      <footer class="pt-4 my-md-5 pt-md-5 border-top ">
+        <div class="row justify-content-md-center">
+          <div class="col col-md-3">
+            <h5>Medapp</h5>
+            <ul class="list-unstyled text-small">
+              <li class="pb-1"><h6><a class="text-muted" href="{% url 'home' %}">Home</a></h6></li>
+              <li class="pb-1"><h6><a class="text-muted" href="#">O nas</a></h6></li>
+              <li class="pb-1"><h6><a class="text-muted" href="{% url "medapp:product_list" %}">Produkty</a></h6></li>
+              <li class="pb-1"><h6><a class="text-muted" href="{% url 'account' %}">Profil</a></h6></li>
+              <li class="pb-1"><h6><a class="text-muted" href="{% url 'medapp:contact' %}">Kontakt</a></h6></li>
+            </ul>
+          </div>
+          <div class="col col-md-3">
+            <h5>Dane kontaktowe</h5>
+            <ul class="list-unstyled ">
+              <li class="pb-1"><h6 class="text-muted">Skontaktuj się z nami, a z przyjemnością odpowiemy na Twoje pytania.</h6></li>
+              <li><a class="text-muted">Numer telefonu:</a></li>
+              <li><a class="text-muted"><img src="{% static "img/telephone.svg" %}" alt="Ikona telefonu" width="25" height="25"> +48 567 985 565</a></li>
+              <li><a class="text-muted">Adres email:</a></li>
+              <li><a class="text-muted"><img src="{% static "img/envelope.svg" %}" alt="Ikona email" width="25" height="25"> obsługa.strony@gmail.pl</a></li>
+            </ul>
+          </div>
+          <div class="col col-md-2">
+            <p class="text-center">
+              <a href="#"><img src="{% static "img/arrow-up-circle.svg" %}" alt="Powrót na górę" width="50" height="50"></a>
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

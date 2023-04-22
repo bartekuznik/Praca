@@ -1,0 +1,106 @@
+{% extends "medapp/base.html" %}
+{% load static %}
+
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Produkty{% endif %}
+{% endblock %}
+
+
+
+{% block content %}
+
+  <!-- Jumbotron section -->
+
+  <div class="jumbotron" style=" background-image: url('/static/img/wheelchair.jpg');">
+    <div class="col-md-5 p-lg-5 mx-auto my-5">
+      <h1 class="display-4 font-weight-normal text-white">Sprzęt medyczny</h1>
+      <p class="lead font-weight-normal text-white">Już teraz wypożycz akcesoria i urządzenia medyczne, które pomogą Ci w powrocie do zdrowia.</p>
+      <a class="btn btn-outline-secondary text-white" href="#">Dowiedz się więcej</a>
+    </div>
+  </div>
+  <div class="container-fluid">
+
+  <!-- Caegory choose section -->
+
+    <div class="row">
+      <div class="col-md-2 order-1">
+
+        <div class="card">
+          <div class="card-body" >
+            <h2 class="card-title">Kategorie</h2>
+          </div>
+          <ul class="list-group list-group-flush " >
+            <li class="list-group-item"  {% if not category %}class="selected "{% endif %}>
+              <h5><a class="text-muted" href="{% url "medapp:product_list" %}">Wszystkie</a></h5>
+            </li>
+            {% for c in categories %}
+            <li class="list-group-item"  {% if category.slug == c.slug %}class="selected"{% endif %}>
+              <h5><a class="text-muted"  href="{{ c.get_absolute_url }}">{{ c.name }}</a></h5>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        
+
+      </div>
+
+  <!-- Product cards section -->
+
+      <div class="col-md-10 order-2">
+
+        <div id="main" class="product-list text-center pb-2">
+          <h1>{% if category %}{{ category.name }}{% else %}Dostępne produkty{% endif %}</h1>
+        </div>
+        <div class="card-deck ">
+          <div class="row ">
+            {% for product in page_obj %}
+            <div class="col pb-4 text-center">
+                <div class="card shadow-sm rounded" style=" width: 17rem; margin: auto;">
+                  <a href="{{ product.get_absolute_url }}">
+                    <img class="img-fluid"  src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                  </a>
+                  <div class="card-body text-center">
+                    <h5 class="card-title"><a class="text-muted" href="{{ product.get_absolute_url }}">{{ product.name }}</a></h5>
+                    <h6>{{ product.price }}zł/dzień</h6>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="btn-group mx-auto">
+                        <button type="button" class="btn btn-sm btn-outline-secondary "><a class="text-muted" href="{{ product.get_absolute_url }}">Zamów teraz</a></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+            </div>
+            {% endfor %}
+          </div>          
+        </div> 
+
+        <nav>
+          <ul class="pagination pagination-lg justify-content-center">
+            {%if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link text-muted" href="?page={{page_obj.previous_page_number}}" aria-label="Previous"> {# link to the prev page #}
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
+            {% endif %}
+            <li class="page-item"><a class="page-link text-muted" href="{{page_obj.number}}">1</a></li>
+            {%if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link text-muted" href="?page={{page_obj.next_page_number}}" aria-label="Next"> {# link to the next page #}
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+
+      </div>  
+
+    </div>  
+        
+  </div>
+   
+{% endblock %}

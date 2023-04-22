@@ -1,0 +1,20 @@
+{% extends "medapp/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form class="form-signin pt-5" method="POST">
+        {% csrf_token %}
+        <div class="text-center pt-5 mb-4">
+            <h2 class="pt-5">Logowanie</h2>
+        </div>
+        {{ form|crispy }}
+        <button  class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj się!</button>
+        <div class="pt-3">
+            Potrzebujesz założyć konto? <a href="{% url 'register' %}">Zarejestruj się</a>
+        </div>
+        <div>
+            Zapomniałeś hasła? <a href="{% url 'password_reset' %}">Ustaw nowe hasło</a>
+        </div>
+    </form>
+   
+{% endblock content %}

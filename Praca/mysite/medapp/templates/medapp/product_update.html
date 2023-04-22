@@ -1,0 +1,16 @@
+{% extends "medapp/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form class="form-signin" style="max-width: 800px; height: 1000px;" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="border-bottom">
+        <h2 class="pt-5">Aktualizuj swoją ofertę</h2>
+    </div>
+    {{ form|crispy }}
+    <button  class="btn btn-lg btn-primary btn-block" type="submit">Edytuj produkt!</button>
+</form>
+
+
+
+{% endblock content %}

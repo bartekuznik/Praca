@@ -1,0 +1,14 @@
+{% extends "medapp/base.html" %}
+
+{% block content %}
+<form class="form-signin pt-5" method="POST">
+    {% csrf_token %}
+    <div class="text-center pt-5 mb-4">
+        <h2 class="pt-5">Usuń ofertę</h2>
+    </div>
+    <button class="btn btn-lg btn-outline-danger btn-block" type="submit">Usuń!</button>
+    <a class="btn btn-lg btn-outline-danger btn-block" href="{{ product.get_absolute_url }}">Anuluj</a>
+</form>
+
+
+{% endblock content %}
