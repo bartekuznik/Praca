@@ -7,6 +7,9 @@ from django.urls import reverse
 
 
 class Category(models.Model):
+    """
+    Model representing a product category.
+    """
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True, unique=True)
 
@@ -19,9 +22,15 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
+        """
+        Returns the URL to the list of products belonging to this category.
+        """
         return reverse('medapp:product_list_by_category', args=[self.slug])
 
 class Product(models.Model):
+    """
+    Model representing a product available in the store.
+    """
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE, verbose_name="Kategoria produktu")
     author = models.ForeignKey(User,on_delete=models.CASCADE)
     name = models.CharField(max_length=200,db_index=True, verbose_name="Nazwa produktu")
@@ -37,6 +46,9 @@ class Product(models.Model):
         return self.name
 
     def get_absolute_url(self):
+        """
+        Returns the URL to the product details.
+        """
         return reverse('medapp:product-detail', kwargs={'pk':self.pk})
     
     class Meta:
@@ -44,6 +56,9 @@ class Product(models.Model):
 
 
 class Profile(models.Model):
+    """
+    Model representing a user profile.
+    """
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='profiles/%Y/%m/%d', blank = True)
@@ -52,12 +67,18 @@ class Profile(models.Model):
         return self.description
 
     def get_absolute_url(self):
+        """
+        Returns the URL to the user profile details.
+        """
         return reverse('medapp:profile-detail', kwargs={'pk':self.pk})
 
     class Meta:
         verbose_name = 'profile'
 
 class Contact(models.Model):
+    """
+    Model representing a contact form.
+    """
     email_guest = models.EmailField()
     topic = models.CharField(max_length=200)
     message_text = models.TextField()
@@ -67,6 +88,9 @@ class Contact(models.Model):
 
 
 class Order(models.Model):
+    """
+    Model representing a product order by a user.
+    """
     product = models.ForeignKey(Product, on_delete=DO_NOTHING)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     quantity = models.DecimalField(max_digits=10, decimal_places=0)

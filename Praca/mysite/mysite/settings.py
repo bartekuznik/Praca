@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'medapp.apps.MedappConfig', #dodanie aplikacji Medapp
     'crispy_forms', #dodanie crispi-forms
+    'crispy_bootstrap4',
     'django_extensions',#generacja grafu
     'django.contrib.admin',
     'django.contrib.auth',
